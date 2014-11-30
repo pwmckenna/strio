@@ -3,8 +3,12 @@
 var express = require('express');
 var app = express();
 var routes = require('./routes');
+var bodyParser = require('body-parser');
 
+app.use(bodyParser.json());
+
+app.get('/', routes.get);
 app.post('/', routes.post);
-app.del('/', routes.del);
+app.delete('/', routes.del);
 
 module.exports = app;

@@ -2,8 +2,25 @@
 
 module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-env');
     grunt.loadNpmTasks('grunt-mocha-test');
+    grunt.loadNpmTasks('grunt-express-server');
+    grunt.loadNpmTasks('grunt-contrib-watch');
+
     grunt.initConfig({
+        watch: {
+            express: {
+                files: ['app/**/*.js', '!node_modules/**/*'],
+                tasks: ['jshint', 'express:development']
+            }
+        },
+        express: {
+            development: {
+                options: {
+                    script: 'server.js'
+                }
+            }
+        },
         env: {
             development: {
                 DEBUG: '*',
@@ -67,4 +84,5 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('test', ['jshint', 'mochaTest']);
+    grunt.registerTask('default', ['jshint', 'env:development', 'express:development', 'watch:express']);
 };
